@@ -187,9 +187,27 @@ function ChartCard({ title, note, children, tall }) {
 
 function SectionHeader({ title, subtitle }) {
   return (
-    <div style={{ margin:'60px 0 24px', borderLeft:`4px solid ${LIGHT_PURPLE}`, paddingLeft:'16px' }}>
+    <div style={{ margin:'60px 0 12px', borderLeft:`4px solid ${LIGHT_PURPLE}`, paddingLeft:'16px' }}>
       <h2 style={{ color:'#4a1a63', fontSize:'1.2rem', fontWeight:'800', margin:0 }}>{title}</h2>
       {subtitle && <p style={{ color:'#aaa', fontSize:'0.8rem', margin:'4px 0 0' }}>{subtitle}</p>}
+    </div>
+  )
+}
+
+function IntroCard({ children }) {
+  return (
+    <div style={{
+      gridColumn: '1 / -1',
+      background: 'white',
+      borderRadius: '16px',
+      padding: '22px 28px',
+      boxShadow: '0 4px 20px rgba(135,65,179,0.08)',
+      border: '1px solid rgba(169,126,196,0.15)',
+      borderLeft: `4px solid ${LIGHT_PURPLE}`,
+    }}>
+      <p style={{ color:'#555', fontSize:'0.93rem', lineHeight:'1.85', margin:0 }}>
+        {children}
+      </p>
     </div>
   )
 }
@@ -330,8 +348,16 @@ export function Dashboard() {
       </div>
 
       {/* ── 1. Perfil demográfico ──────────────────────────────── */}
-      <SectionHeader title="Perfil demográfico" subtitle="Distribución de las 2.600 mujeres encuestadas" />
+      <SectionHeader title="Perfil demográfico" subtitle={`Distribución de las ${totalSurveyed.toLocaleString()} mujeres encuestadas`} />
       <div style={grid2}>
+        <IntroCard>
+          La encuesta recoge los datos de <strong>{totalSurveyed.toLocaleString()} mujeres</strong> residentes
+          en la Comunidad de Madrid, con edades comprendidas entre los 16 y los 65 años o más. La muestra
+          abarca distintos distritos, situaciones laborales, estados civiles y formas de convivencia,
+          lo que ofrece una imagen representativa de la diversidad de las mujeres madrileñas.
+          Un <strong>{porcentajeVictimas}%</strong> declaró haber sufrido algún episodio de violencia sexual
+          directamente, lo que subraya la magnitud y transversalidad del problema.
+        </IntroCard>
         <ChartCard title="¿Víctimas de violencia sexual?">
           <Doughnut data={victimasDonut} options={donutOpts} />
         </ChartCard>
@@ -358,6 +384,14 @@ export function Dashboard() {
         subtitle={`Datos referidos únicamente a las ${victims} víctimas directas`}
       />
       <div style={grid3}>
+        <IntroCard>
+          Los episodios de violencia sexual ocurren mayoritariamente en <strong>espacios privados</strong> —
+          el hogar o entornos cerrados — y, en la gran mayoría de los casos, <strong>el agresor era
+          una persona conocida</strong> por la víctima. La ex-pareja es el perfil más frecuente, seguida
+          de compañeros de trabajo o estudios y amigos. Estos datos cuestionan el estereotipo del agresor
+          desconocido y evidencian que la violencia sexual se produce, sobre todo, dentro de relaciones
+          de confianza. A pesar de ello, una proporción significativa de víctimas <strong>no denunció</strong> los hechos.
+        </IntroCard>
         <ChartCard title="¿Dónde ocurrió?" note="Espacio donde tuvieron lugar los hechos">
           <Doughnut data={lugarDonut} options={donutOpts} />
         </ChartCard>
@@ -375,6 +409,14 @@ export function Dashboard() {
         subtitle="Secuelas sufridas y redes de apoyo activadas"
       />
       <div style={grid2}>
+        <IntroCard>
+          Las consecuencias de la violencia sexual son principalmente de naturaleza <strong>psicológica</strong>:
+          la mayoría de las víctimas reportó secuelas emocionales o mentales, en muchos casos combinadas con
+          daño físico. Ante estos episodios, las mujeres tienden a buscar apoyo en su entorno más cercano
+          antes que en instituciones o servicios especializados. Las <strong>amigas y familiares mujeres</strong> son
+          las figuras de apoyo más frecuentes, lo que refleja la importancia de las redes de cuidado informal
+          y la desconfianza hacia los canales formales de atención.
+        </IntroCard>
         <ChartCard title="Tipo de secuelas" note="Víctimas que sufrieron secuelas tras el episodio">
           <Bar data={secuelasBar} options={hBarOpts} />
         </ChartCard>
@@ -389,6 +431,14 @@ export function Dashboard() {
         subtitle="Razón principal por la que las mujeres no denuncian una agresión sexual (todos los encuestados)"
       />
       <div style={{ display:'grid', gridTemplateColumns:'1fr', gap:'22px' }}>
+        <IntroCard>
+          A pesar de la gravedad de los hechos, la denuncia formal sigue siendo una opción minoritaria.
+          Las encuestadas señalan el <strong>miedo al agresor</strong> como la razón principal para no
+          denunciar, seguido del temor a no ser creídas y la vergüenza. Estos datos revelan que el
+          sistema judicial todavía genera desconfianza entre las víctimas, y que el <strong>estigma social</strong> y
+          la culpabilización continúan siendo obstáculos determinantes. Abordar estas barreras es
+          imprescindible para mejorar el acceso a la justicia.
+        </IntroCard>
         <ChartCard title="Razones para no denunciar (ranking 1 — razón más citada)" tall>
           <Bar data={razonesBar} options={hBarOpts} />
         </ChartCard>
@@ -400,6 +450,16 @@ export function Dashboard() {
         subtitle="Qué harían las encuestadas y qué medidas consideran más efectivas"
       />
       <div style={grid3}>
+        <IntroCard>
+          Ante un episodio de violencia sexual, la mayoría de las mujeres acudiría en primer lugar a la
+          <strong> policía o la guardia civil</strong>, aunque los centros especializados en violencia sexual
+          y los hospitales también cuentan con un respaldo significativo. En cuanto a la prevención,
+          la <strong>educación afectivo-sexual</strong> en las escuelas es considerada la medida más eficaz
+          por encima de las campañas de sensibilización. Y cuando se plantea elegir entre dos enfoques,
+          la mayoría prioriza <strong>educar a los hombres para que no agredan</strong> sobre enseñar
+          a las mujeres estrategias de autoprotección, lo que refleja que la responsabilidad debe recaer
+          en quien agrede, no en quien sufre la agresión.
+        </IntroCard>
         <ChartCard title="¿A dónde acudiría?" note="Primera respuesta ante un episodio de violencia sexual">
           <Bar data={adondeBar} options={hBarOpts} />
         </ChartCard>
